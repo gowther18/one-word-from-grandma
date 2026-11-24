@@ -30,6 +30,12 @@ import { join } from 'node:path';
 
 const WORD = 'newfangled';
 
+// The gate requires 1-30 characters, a single word, not whitespace-only:
+// fail loudly instead of shipping an invalid entry.
+if (!/^[^\s]{1,30}$/.test(WORD)) {
+  throw new Error(`invalid entry word: ${JSON.stringify(WORD)}`);
+}
+
 const OUTPUT_DIR = process.env.MAKEFUN_OUTPUT_DIR ?? '/output';
 
 mkdirSync(OUTPUT_DIR, { recursive: true });
